@@ -35,8 +35,12 @@ A primeira versão será um app web com conta de usuário. Os arquivos PDF serã
 - Notificações por e-mail, SMS, WhatsApp ou push.
 - Armazenamento dos arquivos PDF originais.
 
+Funcionalidades planejadas para versões futuras:
+- Recuperação de senha.
+- Confirmação de e-mail.
+
 ## 4. Restrições técnicas
-- Stack obrigatória: ainda não definida.
+- Stack: Node.js com TypeScript, Fastify, interface web simples, SQLite e Vitest.
 - O sistema deve ser um app web.
 - A solução deve usar poucas dependências e consumir pouca memória e CPU.
 - A leitura deve funcionar somente para PDFs que contenham texto selecionável.
@@ -44,7 +48,11 @@ A primeira versão será um app web com conta de usuário. Os arquivos PDF serã
 - O processamento deve evitar manter o PDF em armazenamento permanente.
 - A linha digitável ou o código de barras extraído deve ser tratado como dado sujeito a conferência manual; o sistema não deve considerar a extração automaticamente correta.
 - A arquitetura deve separar autenticação, processamento dos boletos, regras de negócio e persistência quando a stack for definida.
-- A decisão sobre executar a leitura no navegador ou no backend deve ser registrada antes da implementação.
+- A leitura do texto do PDF será executada no backend, com arquivo temporário descartável.
+- A conta será criada com e-mail e senha de no mínimo 8 caracteres; a senha será armazenada somente como hash seguro.
+- Recuperação de senha e confirmação de e-mail ficam fora do MVP.
+- Cada envio aceitará no máximo 10 PDFs, com até 5 MB por arquivo e 25 MB por lote.
+- Os arquivos do lote serão processados sequencialmente para reduzir picos de memória.
 
 ## 5. Casos de borda
 - PDF sem texto selecionável.
@@ -91,9 +99,4 @@ Saída:
 ```
 
 ## 7. Perguntas abertas
-- [ ] A leitura do texto do PDF será executada no navegador, no backend ou por um serviço externo?
-- [ ] Qual stack será usada no frontend, backend e banco de dados?
-- [ ] Qual política de senha, recuperação de conta e confirmação de e-mail será adotada?
-- [ ] Como duplicatas serão identificadas: por hash do arquivo temporário, dados do boleto ou confirmação do usuário?
-- [ ] O status vencido será calculado automaticamente a cada consulta ou persistido no banco?
-- [ ] Quais limites de tamanho e quantidade de PDFs serão aplicados por envio?
+Não há perguntas abertas bloqueadoras para o MVP.
